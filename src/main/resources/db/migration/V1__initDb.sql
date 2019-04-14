@@ -19,7 +19,7 @@ create table link_statistic (
        statistic_id int8 default nextval('global_seq'),
        ipaddress varchar(255),
        browser varchar(255),
-       follow_date_time timestamp,
+       follow_date timestamp,
        refferer varchar(255),
        link_id int8 not null,
        primary key (statistic_id),

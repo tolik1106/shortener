@@ -9,9 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class StatisticService {
@@ -27,12 +26,16 @@ public class StatisticService {
         LinkStatistic statistic = new LinkStatistic();
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
 
-        statistic.setFollowDateTime(LocalDateTime.now());
+        statistic.setFollowDate(LocalDate.now());
         statistic.setRefferer(request.getHeader(HttpHeaders.REFERER));
         statistic.setBrowser(userAgent.getBrowser().getName());
         statistic.setIPAddress(request.getRemoteAddr());
         statistic.setLink(link);
         repository.save(statistic);
         return statistic;
+    }
+
+    public Integer countStatisticForLink(Long linkId) {
+        return repository.followCount(linkId);
     }
 }

@@ -22,7 +22,7 @@
                     <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
                 </div>
                 <input name="link" type="url" class="form-control" id="basic-url" aria-describedby="basic-addon3"
-                       value="${greeting}" required>
+                       value="${shortUrl}" required>
             </div>
         </div>
         <div class="row">

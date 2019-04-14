@@ -14,15 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Controller
 public class LinkController {
-
-    private final AtomicLong counter = new AtomicLong();
-    private static final String TEMPLATE = "Hello, %s";
 
     @Autowired
     private LinkService linkService;
@@ -30,10 +29,8 @@ public class LinkController {
     @Autowired
     private StatisticService statisticService;
 
-
     @GetMapping("/")
-    public String greeting(@RequestParam(defaultValue = "World") String name, Model model) {
-        model.addAttribute("message", "");
+    public String greeting() {
         return "greeting";
     }
 
@@ -48,7 +45,7 @@ public class LinkController {
         Link link = linkService.getByShortLink(id);
         Objects.requireNonNull(link);
         LinkStatistic stat = statisticService.create(link, request);
-        if (!link.isActive() || link.getEndDate().before(new Date())) {
+        if (!link.isActive() || link.getEndDate().isBefore(LocalDate.now())) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
             HttpHeaders headers = new HttpHeaders();
@@ -60,15 +57,17 @@ public class LinkController {
     @PostMapping("/")
     public String create(LinkTo linkTo,
                          Model model) {
-        Link link1 = linkService.createLink(linkTo);
-        model.addAttribute("greeting", link1.getShortLink());
+        Link link = linkService.createLink(linkTo);
+        model.addAttribute("shortUrl", link.getShortLink());
         return "greeting";
     }
 
-    @GetMapping("/statistic")
-    public String getStaticstic(@RequestParam Link link, Model model) {
-        model.addAttribute("link", link);
-        model.addAttribute("statistic", statisticService.getAllStatistic(link.getId()));
+    @GetMapping("/statistic/{id}")
+    public String getStaticstic(@PathVariable Long id, Model model) {
+        model.addAttribute("link", linkService.getById(id));
+        List<LinkStatistic> allStatistic = statisticService.getAllStatistic(id);
+        model.addAttribute("follow", statisticService.countStatisticForLink(id));
+        model.addAttribute("statistic", allStatistic);
         return "statistic";
     }
 

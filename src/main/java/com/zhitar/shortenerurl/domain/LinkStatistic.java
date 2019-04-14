@@ -4,9 +4,10 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@NamedQuery(name = "Statistic.getAll", query = "SELECT s FROM LinkStatistic s WHERE s.link.id=:link_id ORDER BY s.followDateTime DESC")
+@NamedQuery(name = "Statistic.getAll", query = "SELECT s FROM LinkStatistic s WHERE s.link.id=:link_id ORDER BY s.followDate DESC")
 @Entity
 public class LinkStatistic {
 
@@ -16,7 +17,8 @@ public class LinkStatistic {
     @Column(name = "statistic_id")
     private Long id;
 
-    private LocalDateTime followDateTime;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDate followDate;
 
     private String refferer;
 
@@ -37,12 +39,12 @@ public class LinkStatistic {
         this.id = id;
     }
 
-    public LocalDateTime getFollowDateTime() {
-        return followDateTime;
+    public LocalDate getFollowDate() {
+        return followDate;
     }
 
-    public void setFollowDateTime(LocalDateTime followDateTime) {
-        this.followDateTime = followDateTime;
+    public void setFollowDate(LocalDate followDate) {
+        this.followDate = followDate;
     }
 
     public String getRefferer() {

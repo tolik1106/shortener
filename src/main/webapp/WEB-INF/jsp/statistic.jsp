@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Anatoliy
@@ -10,13 +11,24 @@
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 
-<h2>Link ${url} statistic</h2>
+<h6>Link ${link.url} statistic</h6>
 
 <ul>
-    <li>${url.id}</li>
-    <li></li>
-    <li></li>
-    <li></li>
+    <li>Total click: ${follow}</li>
+    <c:forEach items="${statistic}" var="stat">
+        <div>
+            ${stat.link}
+        </div>
+        <div>
+                ${stat.browser}
+        </div>
+        <div>
+                ${stat.followDate}
+        </div>
+        <div>
+                ${stat.IPAddress}
+        </div>
+    </c:forEach>
 </ul>
 
 </body>

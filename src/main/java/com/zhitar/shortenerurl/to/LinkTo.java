@@ -2,7 +2,7 @@ package com.zhitar.shortenerurl.to;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class LinkTo {
@@ -12,7 +12,7 @@ public class LinkTo {
     private String link;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
-    private Date dateExpired;
+    private LocalDate dateExpired;
 
     private Integer daysExpired;
 
@@ -21,7 +21,7 @@ public class LinkTo {
     public LinkTo() {
     }
 
-    public LinkTo(String link, Date dateExpired, Integer daysExpired, boolean active) {
+    public LinkTo(String link, LocalDate dateExpired, Integer daysExpired, boolean active) {
         this.link = link;
         this.dateExpired = dateExpired;
         this.daysExpired = daysExpired;
@@ -44,11 +44,11 @@ public class LinkTo {
         this.link = link;
     }
 
-    public Date getDateExpired() {
+    public LocalDate getDateExpired() {
         return dateExpired;
     }
 
-    public void setDateExpired(Date dateExpired) {
+    public void setDateExpired(LocalDate dateExpired) {
         this.dateExpired = dateExpired;
     }
 

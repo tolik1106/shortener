@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface StatisticRepository extends JpaRepository<LinkStatistic, Long> {
 
-    @Query("SELECT s FROM LinkStatistic s WHERE s.link.id=:link_id ORDER BY s.followDateTime DESC")
+    @Query("SELECT s FROM LinkStatistic s WHERE s.link.id=:link_id ORDER BY s.followDate DESC")
     List<LinkStatistic> getAll(@Param("link_id") Long linkId);
+
+    @Query("SELECT COUNT(s) FROM LinkStatistic s WHERE s.link.id=:linkId")
+    Integer followCount(@Param("linkId") Long linkId);
 }

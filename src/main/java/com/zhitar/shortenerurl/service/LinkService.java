@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import java.util.List;
 public class LinkService {
 
     private static final long DEFAULT_EXPIRE_DAYS = 30;
-    private static final long MS_IN_ONE_DAY = 24 * 60 * 60 * 1000;
     public static final String PREFIX = "http://localhost:8080/";
 
     @Autowired
@@ -29,18 +29,14 @@ public class LinkService {
         if (linkByURL != null) {
             return linkByURL;
         }
-        Date expiredDate;
+        LocalDate expiredDate;
         if (( expiredDate = linkTo.getDateExpired()) == null) {
-            expiredDate = new Date();
-            Integer daysExpired;
-            if ((daysExpired = linkTo.getDaysExpired()) == null) {
-                System.out.println("Without days");
-                System.out.println(expiredDate.getTime());
-                System.out.println(DEFAULT_EXPIRE_DAYS * MS_IN_ONE_DAY);
-                expiredDate.setTime(expiredDate.getTime() + DEFAULT_EXPIRE_DAYS * MS_IN_ONE_DAY);
+            expiredDate = LocalDate.now();
+            Integer daysExpired = linkTo.getDaysExpired();
+            if ((daysExpired) == null) {
+                expiredDate = expiredDate.plusDays(DEFAULT_EXPIRE_DAYS);
             } else {
-                System.out.println("DaysExpired");
-                expiredDate.setTime(expiredDate.getTime() + daysExpired * MS_IN_ONE_DAY);
+                expiredDate = expiredDate.plusDays(daysExpired);
             }
         }
         String shortLink = Helper.generateRandomString();
@@ -70,5 +66,12 @@ public class LinkService {
 
     public Link getById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public void enable(long id, boolean active) {
+        Link link = getById(id);
+        link.setActive(active);
+        repository.save(link);
     }
 }

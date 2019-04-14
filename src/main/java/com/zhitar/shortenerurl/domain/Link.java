@@ -1,11 +1,14 @@
 package com.zhitar.shortenerurl.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -27,24 +30,26 @@ public class Link {
     private String shortLink;
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+//    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
-    private Date createdDate;
+    private LocalDate createdDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
-    private Date endDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate endDate;
 
     private boolean active;
 
     @OneToMany(mappedBy = "link", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<LinkStatistic> linkStatisticSet;
 
     public Link() {
     }
 
-    public Link(String url, String shortLink, Date endDate, boolean active) {
+    public Link(String url, String shortLink, LocalDate endDate, boolean active) {
         this.url = url;
         this.shortLink = shortLink;
         this.endDate = endDate;
@@ -67,15 +72,15 @@ public class Link {
         return shortLink;
     }
 
-    public Date getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -99,7 +104,7 @@ public class Link {
         this.shortLink = shortLink;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
     }
 
