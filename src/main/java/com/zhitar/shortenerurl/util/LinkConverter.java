@@ -12,8 +12,4 @@ public class LinkConverter {
     public static Link convertToLink(LinkTo linkTo, LocalDate endDate, String shortLink) {
         return new Link(linkTo.getLink(), shortLink, endDate, linkTo.isActive());
     }
-
-    public static LinkTo convertToLinkTo(Link link) {
-        return null;
-    }
 }

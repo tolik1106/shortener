@@ -1,28 +1,28 @@
-drop table if exists link_statistic;
-drop table if exists links;
+DROP TABLE IF EXISTS link_statistic;
+DROP TABLE IF EXISTS links;
 DROP SEQUENCE IF EXISTS global_seq;
 
 CREATE SEQUENCE global_seq START WITH 100;
 
-create table links (
-        link_id int8 default nextval('global_seq'),
-        active boolean default true not null,
-        created_date timestamp default now(),
-        end_date timestamp not null,
-        short_link varchar(255) not null,
-        url varchar(2048) not null,
-        primary key (link_id),
-        unique (short_link, url)
+CREATE TABLE links (
+        link_id INT8 DEFAULT nextval('global_seq'),
+        active BOOLEAN DEFAULT TRUE NOT NULL,
+        created_date TIMESTAMP DEFAULT now(),
+        end_date TIMESTAMP NOT NULL,
+        short_link VARCHAR(255) NOT NULL,
+        url VARCHAR(2048) NOT NULL,
+        PRIMARY KEY (link_id),
+        UNIQUE (short_link, url)
 );
 
-create table link_statistic (
-       statistic_id int8 default nextval('global_seq'),
-       ipaddress varchar(255),
-       browser varchar(255),
-       follow_date timestamp,
-       refferer varchar(255),
-       link_id int8 not null,
-       primary key (statistic_id),
+CREATE TABLE link_statistic (
+       statistic_id INT8 DEFAULT nextval('global_seq'),
+       ipaddress VARCHAR(255),
+       browser VARCHAR(255),
+       follow_date TIMESTAMP,
+       refferer VARCHAR(255),
+       link_id INT8 NOT NULL,
+       PRIMARY KEY (statistic_id),
        FOREIGN KEY (link_id) REFERENCES links
        ON DELETE CASCADE
 );

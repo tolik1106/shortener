@@ -76,8 +76,11 @@ $(function () {
                 ]
             ],
             "createdRow": function (row, data, dataIndex) {
-                if (!data.enabled) {
+                debugger;
+                if (!data.active) {
                     $(row).attr("data-linkEnabled", false);
+                } else {
+                    $(row).attr("data-linkEnabled", true);
                 }
             }
         }),
@@ -133,11 +136,15 @@ function updateTableByData(data) {
 }
 
 function save() {
+    debugger;
+    var formData = form.serialize();
+    formData = formData.replace('false', $("#active").is(":checked"));
     $.ajax({
         type: "POST",
         url: context.ajaxUrl,
-        data: form.serialize()
+        data: formData
     }).done(function () {
+        debugger;
         $("#editRow").modal("hide");
         context.updateTable();
     });

@@ -7,10 +7,10 @@
 <body>
 <script type="text/javascript" src="/js/common.js" defer></script>
 
-<div class="container">
+<div class="container h-100">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="text-center pt-2 text-success"><span class="float-left"><a class="btn btn-info btn-sm" href="/">Home</a></span>Links</h3>
+                <h3 class="text-center pt-2 text-success"><span class="float-left"><a class="btn btn-info btn-sm" href="">Home</a></span>Links</h3>
             </div>
         </div>
 
@@ -26,22 +26,24 @@
             <th></th>
         </tr>
         </thead>
-        <%--<tbody class="bg-light">--%>
-        <%--<c:forEach items="${links}" var="link">--%>
-            <%--<jsp:useBean id="link" scope="page" type="com.zhitar.shortenerurl.domain.Link"/>--%>
-            <%--<tr>--%>
-                <%--<td>${link.url}</td>--%>
-                <%--<td>${link.shortLink}</td>--%>
-                <%--<td><fmt:formatDate value="${link.createdDate}" pattern="yyyy-MM-dd"/></td>--%>
-                <%--<td><fmt:formatDate value="${link.endDate}" pattern="yyyy-MM-dd"/></td>--%>
-                <%--<td>${link.active}</td>--%>
-                <%--<td><a href="/update/${link.id}">Update</a></td>--%>
-                <%--<td><a href="/delete/${link.id}">Delete</a></td>--%>
-                <%--<td><a href="/statistic/${link.id}">Statistic</a></td>--%>
-            <%--</tr>--%>
-        <%--</c:forEach>--%>
-        <%--</tbody>--%>
     </table>
+    <div class="row">
+        <form action="/statistic" method="get" class="col-md-12">
+            <div>
+                <label for="basic-url">Enter your short url here to get statistic</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">http://localhost:8080/1wnhzq0</span>
+                    </div>
+                    <input name="shortUrl" type="url" class="form-control" id="basic-url" aria-describedby="basic-addon3" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Statistic</button>
+            </div>
+        </form>
+    </div>
+    <div class="output">
+
+    </div>
 </div>
 
 <div class="modal fade" tabindex="-1" id="editRow">

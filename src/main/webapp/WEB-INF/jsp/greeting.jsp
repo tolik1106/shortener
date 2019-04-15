@@ -9,7 +9,9 @@
 <div class="container">
     <div class="row mt-2">
         <div class="col text-right">
-            <a href="links"><button id="links" class="btn btn-info btn-sm" type="submit">Links</button></a>
+            <a href="links">
+                <button id="links" class="btn btn-info btn-sm" type="submit">Links</button>
+            </a>
         </div>
     </div>
 
@@ -26,17 +28,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
-            <label for="date"></label>
-            <input id="date" type="date" name="dateExpired">
+            <div class="card col-md-4">
+                <div class="card-body">
+                    <label for="date" class="card-title">Set expired date:</label>
+                    <input class="card-subtitle" id="date" type="date" name="dateExpired">
+                </div>
             </div>
-            <div class="col-md-4">
-                <label for="days"></label>
-                <input id="days" type="number" name="daysExpired">
+            <div class="card col-md-4">
+                <div class="card-body">
+                    <label for="days" class="card-title">Or set expired days:</label>
+                    <input class="card-subtitle" id="days" type="number" name="daysExpired">
+                </div>
             </div>
-            <div class="col-md-4">
-                <label for="activate"></label>
-                <input id="activate" type="checkbox" name="active">
+            <div class="card col-md-4">
+                <div class="card-body">
+                    <label for="activate">Set active or not:</label>
+                    <input class="card-subtitle" id="activate" type="checkbox" name="active">
+                </div>
             </div>
 
         </div>

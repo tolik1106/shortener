@@ -19,7 +19,7 @@ public class Link {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", initialValue = 100)
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = 100)
     @Column(name = "link_id")
     private Long id;
 
@@ -30,7 +30,6 @@ public class Link {
     private String shortLink;
 
     @CreationTimestamp
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     private LocalDate createdDate;

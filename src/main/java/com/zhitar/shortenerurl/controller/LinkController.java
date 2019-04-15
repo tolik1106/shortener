@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Controller
 public class LinkController {
 
+    public static final int URL_PREFIX_LENGTH = 22;
     @Autowired
     private LinkService linkService;
 
@@ -35,8 +33,7 @@ public class LinkController {
     }
 
     @GetMapping("/links")
-    public String getAll(Model model) {
-        model.addAttribute("links", linkService.getAll());
+    public String getAll() {
         return "links";
     }
 
@@ -62,31 +59,18 @@ public class LinkController {
         return "greeting";
     }
 
-    @GetMapping("/statistic/{id}")
-    public String getStaticstic(@PathVariable Long id, Model model) {
-        model.addAttribute("link", linkService.getById(id));
-        List<LinkStatistic> allStatistic = statisticService.getAllStatistic(id);
-        model.addAttribute("follow", statisticService.countStatisticForLink(id));
-        model.addAttribute("statistic", allStatistic);
+    @GetMapping("/statistic")
+    public String getStaticstic(@RequestParam String shortUrl, Model model) {
+        Link link = linkService.getByShortLink(shortUrl.substring(URL_PREFIX_LENGTH));
+        if (link == null) {
+            return "statistic";
+        }
+        model.addAttribute("link", link);
+        model.addAttribute("follow", statisticService.countStatisticForLink(link.getId()));
+        model.addAttribute("followByDate", statisticService.dateStatistic(link.getId()));
+        model.addAttribute("followByBrowser", statisticService.browserStatistic(link.getId()));
+        model.addAttribute("refStat", statisticService.referrerStatistic(link.getId()));
         return "statistic";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, Model model) {
-        linkService.delete(id);
-        return "redirect:/links";
-    }
-
-    @GetMapping("/update/{id}")
-    public String update(@PathVariable Long id, Model model) {
-        Link link = linkService.getById(id);
-        model.addAttribute("link", link);
-        return "link";
-    }
-
-    @PostMapping("/links")
-    public String update(@ModelAttribute Link link) {
-        linkService.update(link);
-        return "redirect:/links";
-    }
 }

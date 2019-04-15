@@ -13,7 +13,7 @@ public class LinkStatistic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", initialValue = 100)
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = 100)
     @Column(name = "statistic_id")
     private Long id;
 

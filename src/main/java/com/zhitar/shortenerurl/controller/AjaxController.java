@@ -44,4 +44,5 @@ public class AjaxController {
         service.update(link);
         return ResponseEntity.ok().build();
     }
+
 }
